@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 import sqlite3
 
@@ -20,8 +20,9 @@ init_db()
 
 @app.route('/') #O @ é um facilidador na criação de rotas
 def home_page():
-    return "<h2>Bem Vinda a API Livros</h2>"
+    return render_template('index.html')
 
+#-------Rota POST------------
 @app.route('/doar', methods=['POST'])
 def doar():
 
@@ -44,6 +45,7 @@ def doar():
 
         return jsonify({"mensagem":"Livro cadastrado com sucesso"}), 201
 
+#---------Rota GET-------------------
 @app.route('/livros',methods=['GET'])
 def listar_livros():
     with sqlite3.connect('database.db') as conn:
