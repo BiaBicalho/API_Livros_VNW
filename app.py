@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, render_template
 
 import sqlite3
+from flash_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def init_db():
     with sqlite3.connect('database.db') as conn:
@@ -33,8 +35,9 @@ def doar():
     autor = dados.get('autor')
     imagem_url = dados.get('imagem_url')
 
-    #if not titulo or not categoria or not autor or not imagem_url:
-    if not all([titulo,categoria,autor,imagem_url]): #all é pra pegar todos cm referencia, é pra deixar mais limpo o código
+    #ou usa o if not titulo or not categoria or not autor or not imagem_url:
+    
+    if not all([titulo,categoria,autor,imagem_url]): #all é pra pegar todos com referencia, é pra deixar mais limpo o código
         return jsonify({'erro':'Todos os campos são obrigatórios'}), 400 #formato que a menagem retorna, no caso Json
 
     with sqlite3.connect('database.db') as conn:
